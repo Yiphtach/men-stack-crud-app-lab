@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Details</title>
+</head>
+<body>
+  <h1>Details for <%= player.name %></h1>
+  <p>Position: <%= player.position %></p>
+  <p>Points: <%= player.points %></p>
+  <p>Assists: <%= player.assists %></p>
+  <p>Rebounds: <%= player.rebounds %></p>
+
+  <!-- Link to edit the player -->
+  <a href="/teams/<%= player._id %>/edit">Edit Player</a>
+
+  <!-- Form for DELETE request to delete the player -->
+  <form action="/teams/<%= player._id %>?_method=DELETE" method="POST">
+    <button type="submit">Delete Player</button>
+  </form>
+
+  <!-- Link to go back to the list -->
+  <a href="/teams">Back to Players</a>
+</body>
+</html>
