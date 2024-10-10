@@ -1,17 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Knicks Player Stats</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knicks Player Stats</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Linking the CSS -->
 </head>
 <body>
-  <h1>New York Knicks Player Stats</h1>
-  <a href="/teams/new">Add a New Player</a>
-  <ul>
-    <% players.forEach(player => { %>
-      <li><a href="/teams/<%= player._id %>"><%= player.name %></a></li>
-    <% }) %>
-  </ul>
+    <header>
+        <h1>New York Knicks Player Stats</h1>
+        <a href="/teams/new" class="btn">Add a New Player</a>
+    </header>
+
+    <ul class="player-list">
+        <% players.forEach(player => { %>
+            <li class="player-item">
+                <h2><%= player.name %> (<%= player.position %>)</h2>
+                <p>Points: <%= player.points %></p>
+                <p>Assists: <%= player.assists %></p>
+                <p>Rebounds: <%= player.rebounds %></p>
+                <a href="/teams/<%= player._id %>" class="btn">View Player</a>
+                <a href="/teams/<%= player._id %>/edit" class="btn">Edit Player</a>
+                <form action="/teams/<%= player._id %>?_method=DELETE" method="POST" class="inline-form">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </li>
+        <% }) %>
+    </ul>
+
+    <footer>
+        <p>&copy; <%= new Date().getFullYear() %> Knicks Stats App</p>
+    </footer>
 </body>
 </html>

@@ -1,18 +1,19 @@
 const Team = require('../models/team');
 
-// GET all players (index)
+// GET all players (Index Page)
 exports.getAllPlayers = async (req, res) => {
   try {
     const players = await Team.find({});
-    res.render('index', { players });
+    res.status(200).render('index', { players });
   } catch (err) {
-    res.status(500).send(err);
+    console.error(err);
+    res.status(500).send('Error retrieving player data.');
   }
 };
 
-// GET new player form
+// GET form for creating a new player
 exports.newPlayerForm = (req, res) => {
-  res.render('new');
+  res.status(200).render('new');
 };
 
 // POST create a new player
@@ -20,9 +21,10 @@ exports.createPlayer = async (req, res) => {
   try {
     const newPlayer = new Team(req.body);
     await newPlayer.save();
-    res.redirect('/teams');
+    res.status(201).redirect('/teams'); // 201 for resource creation
   } catch (err) {
-    res.status(500).send(err);
+    console.error(err);
+    res.status(400).send('Error creating new player. Please check the input.');
   }
 };
 
@@ -30,38 +32,54 @@ exports.createPlayer = async (req, res) => {
 exports.getPlayerById = async (req, res) => {
   try {
     const player = await Team.findById(req.params.id);
-    res.render('show', { player });
+    if (!player) {
+      return res.status(404).send('Player not found');
+    }
+    res.status(200).render('show', { player });
   } catch (err) {
-    res.status(500).send(err);
+    console.error(err);
+    res.status(500).send('Error retrieving player details.');
   }
 };
 
-// GET edit player form
+// GET form to edit a player
 exports.editPlayerForm = async (req, res) => {
   try {
     const player = await Team.findById(req.params.id);
-    res.render('edit', { player });
+    if (!player) {
+      return res.status(404).send('Player not found');
+    }
+    res.status(200).render('edit', { player });
   } catch (err) {
-    res.status(500).send(err);
+    console.error(err);
+    res.status(500).send('Error retrieving player data for editing.');
   }
 };
 
 // PUT update player data
 exports.updatePlayer = async (req, res) => {
   try {
-    await Team.findByIdAndUpdate(req.params.id, req.body);
-    res.redirect(`/teams/${req.params.id}`);
+    const updatedPlayer = await Team.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedPlayer) {
+      return res.status(404).send('Player not found');
+    }
+    res.status(200).redirect(`/teams/${updatedPlayer._id}`);
   } catch (err) {
-    res.status(500).send(err);
+    console.error(err);
+    res.status(400).send('Error updating player. Please check the input.');
   }
 };
 
 // DELETE a player by ID
 exports.deletePlayer = async (req, res) => {
   try {
-    await Team.findByIdAndRemove(req.params.id);
-    res.redirect('/teams');
+    const deletedPlayer = await Team.findByIdAndRemove(req.params.id);
+    if (!deletedPlayer) {
+      return res.status(404).send('Player not found');
+    }
+    res.status(200).redirect('/teams');
   } catch (err) {
-    res.status(500).send(err);
+    console.error(err);
+    res.status(500).send('Error deleting player.');
   }
 };

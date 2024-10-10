@@ -4,34 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Player</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h1>Add a New Player</h1>
-    
+    <header>
+        <h1>Add a New Player</h1>
+    </header>
+
     <form action="/teams" method="POST">
-        <div>
+        <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" placeholder="Player Name" required>
         </div>
-        <div>
+
+        <div class="form-group">
             <label for="position">Position:</label>
             <input type="text" id="position" name="position" placeholder="Player Position">
         </div>
-        <div>
+
+        <div class="form-group">
             <label for="points">Points:</label>
             <input type="number" id="points" name="points" placeholder="Average Points Per Game">
         </div>
-        <div>
+
+        <div class="form-group">
             <label for="assists">Assists:</label>
             <input type="number" id="assists" name="assists" placeholder="Average Assists Per Game">
         </div>
-        <div>
+
+        <div class="form-group">
             <label for="rebounds">Rebounds:</label>
             <input type="number" id="rebounds" name="rebounds" placeholder="Average Rebounds Per Game">
         </div>
-        <button type="submit">Add Player</button>
+
+        <button type="submit" class="btn">Add Player</button>
     </form>
 
-    <a href="/teams">Cancel</a>
+    <a href="/teams" class="btn">Cancel</a>
+
+    <footer>
+        <p>&copy; <%= new Date().getFullYear() %> Knicks Stats App</p>
+    </footer>
 </body>
 </html>

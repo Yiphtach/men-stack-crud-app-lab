@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Player Details</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= player.name %> Stats</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h1>Details for <%= player.name %></h1>
-  <p>Position: <%= player.position %></p>
-  <p>Points: <%= player.points %></p>
-  <p>Assists: <%= player.assists %></p>
-  <p>Rebounds: <%= player.rebounds %></p>
+    <header>
+        <h1><%= player.name %> Stats</h1>
+    </header>
 
-  <!-- Link to edit the player -->
-  <a href="/teams/<%= player._id %>/edit">Edit Player</a>
+    <div class="player-details">
+        <p>Position: <%= player.position %></p>
+        <p>Points: <%= player.points %></p>
+        <p>Assists: <%= player.assists %></p>
+        <p>Rebounds: <%= player.rebounds %></p>
 
-  <!-- Form for DELETE request to delete the player -->
-  <form action="/teams/<%= player._id %>?_method=DELETE" method="POST">
-    <button type="submit">Delete Player</button>
-  </form>
+        <a href="/teams" class="btn">Back to Players</a>
+        <a href="/teams/<%= player._id %>/edit" class="btn">Edit Player</a>
 
-  <!-- Link to go back to the list -->
-  <a href="/teams">Back to Players</a>
+        <!-- Delete button -->
+        <form action="/teams/<%= player._id %>?_method=DELETE" method="POST" class="inline-form">
+            <button type="submit" class="btn btn-danger">Delete Player</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; <%= new Date().getFullYear() %> Knicks Stats App</p>
+    </footer>
 </body>
 </html>
