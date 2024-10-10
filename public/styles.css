@@ -138,3 +138,28 @@ body::before {
     margin-bottom: 10px;
 }
 
+.player-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .player-item {
+    flex: 1 1 calc(33.333% - 20px);
+    margin: 10px;
+    padding: 15px;
+    background-color: #F1F1F1;
+  }
+  
+  @media (max-width: 768px) {
+    .player-item {
+      flex: 1 1 calc(50% - 20px);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .player-item {
+      flex: 1 1 100%;
+    }
+  }
+  

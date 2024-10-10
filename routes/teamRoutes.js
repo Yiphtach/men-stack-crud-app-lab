@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const teamController = require('../controllers/teamController');
+const { body, validationResult } = require('express-validator');
 
 // Route to get all Knicks players (Index Page)
 router.get('/', teamController.getAllPlayers);
@@ -9,7 +10,15 @@ router.get('/', teamController.getAllPlayers);
 router.get('/new', teamController.newPlayerForm);
 
 // Route to create a new player (POST request)
-router.post('/', teamController.createPlayer);
+router.post('/', 
+    [
+        body('name').not().isEmpty().withMessage('Name is required'),
+        body('points').isInt({ min: 0 }).withMessage('Points must be a non-negative integer'),
+        body('assists').isInt({ min: 0 }).withMessage('Assists must be a non-negative integer'),
+        body('rebounds').isInt({ min: 0 }).withMessage('Rebounds must be a non-negative integer'),
+      ],
+      teamController.createPlayer
+    );
 
 // Route to get a specific player by ID
 router.get('/:id', teamController.getPlayerById);

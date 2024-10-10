@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const compression = require('compression');
 
+
 // APP + Configurations
 dotenv.config();
 const app = express();

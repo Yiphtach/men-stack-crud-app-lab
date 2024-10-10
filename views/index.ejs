@@ -11,6 +11,21 @@
         <h1>New York Knicks Player Stats</h1>
         <a href="/teams/new" class="btn">Add a New Player</a>
     </header>
+    <nav>
+      <% if (currentPage > 1) { %>
+        <a href="?page=<%= currentPage - 1 %>">Previous</a>
+      <% } %>
+      <span>Page <%= currentPage %> of <%= totalPages %></span>
+      <% if (currentPage < totalPages) { %>
+        <a href="?page=<%= currentPage + 1 %>">Next</a>
+      <% } %>
+    </nav>
+    
+    <form action="/teams" method="GET">
+      <input type="text" name="name" placeholder="Search by name">
+      <input type="text" name="position" placeholder="Search by position">
+      <button type="submit">Search</button>
+    </form>        
 
     <ul class="player-list">
         <% players.forEach(player => { %>

@@ -1,13 +1,21 @@
 const Team = require('../models/team');
+const NodeCache = require('node-cache');
+const cache = new NodeCache();
 
 // GET all players (Index Page)
 exports.getAllPlayers = async (req, res) => {
+  const cachedPlayers = cache.get('players');
+  if (cachedPlayers) {
+    return res.status(200).render('index', { players: cachedPlayers });
+  }
+
   try {
     const players = await Team.find({});
+    cache.set('players', players, 600); // Cache for 10 minutes
     res.status(200).render('index', { players });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error retrieving player data.');
+    res.status(500).send('Error retrieving player data');
   }
 };
 
@@ -18,13 +26,17 @@ exports.newPlayerForm = (req, res) => {
 
 // POST create a new player
 exports.createPlayer = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).render('new', { errors: errors.array() });
+  }
+
   try {
     const newPlayer = new Team(req.body);
     await newPlayer.save();
-    res.status(201).redirect('/teams'); // 201 for resource creation
+    res.status(201).redirect('/teams?message=Player created successfully');
   } catch (err) {
-    console.error(err);
-    res.status(400).send('Error creating new player. Please check the input.');
+    res.status(400).redirect('/teams/new?error=Error creating player');
   }
 };
 
@@ -83,3 +95,20 @@ exports.deletePlayer = async (req, res) => {
     res.status(500).send('Error deleting player.');
   }
 };
+
+exports.searchPlayers = async (req, res) => {
+  const { name, position } = req.query;
+
+  try {
+    const query = {};
+    if (name) query.name = new RegExp(name, 'i');
+    if (position) query.position = new RegExp(position, 'i');
+
+    const players = await Team.find(query);
+    res.status(200).render('index', { players });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error searching players');
+  }
+};
+
