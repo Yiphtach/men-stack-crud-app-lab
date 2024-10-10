@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knicks Player Stats</title>
+</head>
+<body>
+  <h1>New York Knicks Player Stats</h1>
+  <a href="/teams/new">Add a New Player</a>
+  <ul>
+    <% players.forEach(player => { %>
+      <li><a href="/teams/<%= player._id %>"><%= player.name %></a></li>
+    <% }) %>
+  </ul>
+</body>
+</html>
